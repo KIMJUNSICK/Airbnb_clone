@@ -2,4 +2,7 @@
 
 ## Tools
 
-- WSL(windows subsystem for Linux), vscode, pipenv, Django
+- WSL(windows subsystem for Linux)
+- vscode
+- pipenv
+- Django
