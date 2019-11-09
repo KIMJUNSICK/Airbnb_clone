@@ -70,10 +70,7 @@ class RoomAdmin(admin.ModelAdmin):
     search_fields = ("=city", "^host__username")
 
     def count_amenities(self, obj):
-
         return obj.amenities.count()
-
-    count_amenities.short_description = "Count_Amenities"
 
 
 @admin.register(models.Photo)
