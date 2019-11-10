@@ -61,6 +61,7 @@ class RoomAdmin(admin.ModelAdmin):
         "instant_book",
         "count_amenities",
         "count_photos",
+        "total_rating",
     )
 
     list_filter = (
@@ -87,4 +88,3 @@ class RoomAdmin(admin.ModelAdmin):
 class PhotoAdmin(admin.ModelAdmin):
 
     """ Photo Admin Definition"""
-
