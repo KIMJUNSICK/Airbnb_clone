@@ -45,6 +45,8 @@ class RoomAdmin(admin.ModelAdmin):
         "house_rules",
     )
 
+    raw_id_fields = ("host",)
+
     ordering = ("name", "price")
 
     list_display = (
