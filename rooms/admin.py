@@ -17,10 +17,18 @@ class ItemAdmin(admin.ModelAdmin):
         return obj.rooms.count()
 
 
+#  Alternatives of TabularInline is "StackedInline"
+class PhotoInline(admin.TabularInline):
+
+    model = models.Photo
+
+
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
 
     """ Room Admin Definition"""
+
+    inlines = (PhotoInline,)
 
     fieldsets = (
         (
@@ -45,6 +53,7 @@ class RoomAdmin(admin.ModelAdmin):
         "house_rules",
     )
 
+    # for Foreign keys
     raw_id_fields = ("host",)
 
     ordering = ("name", "price")
