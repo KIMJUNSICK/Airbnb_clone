@@ -130,3 +130,6 @@ STATIC_URL = "/static/"
 AUTH_USER_MODEL = "users.User"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+
+# meaning of starting path with "/" is absolute path
+MEDIA_URL = "/media/"
