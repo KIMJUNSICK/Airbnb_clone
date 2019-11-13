@@ -1,4 +1,5 @@
 import random
+from django.contrib.admin.utils import flatten
 from django.core.management.base import BaseCommand
 from django_seed import Seed
 from rooms import models as room_models
@@ -33,5 +34,18 @@ class Command(BaseCommand):
                 "baths": lambda x: random.randint(1, 5),
             },
         )
-        seeder.execute()
+        created_photos = seeder.execute()
+        created_clean = flatten(
+            list(created_photos.values())
+        )  # make list, not two-dimension list
+        # loop in loop
+        for pk in created_clean:
+            room = room_models.Room.objects.get(pk=pk)
+            for i in range(3, random.randint(10, 17)):
+                room_models.Photo.objects.create(
+                    caption=seeder.faker.sentence(),
+                    room=room,
+                    file=f"room_photos/{random.randint(1,31)}.webp",
+                )
         self.stdout.write(self.style.SUCCESS(f"{number} rooms created!"))
+
