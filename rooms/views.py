@@ -19,5 +19,7 @@ def all_rooms(request):
             "page": page,
             "page_count": page_count,
             "page_range": range(1, page_count + 1),
+            "page_previous": page - 1,
+            "page_next": page + 1,
         },
     )
