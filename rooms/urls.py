@@ -7,5 +7,5 @@ app_name = "rooms"
 # path have integer named 'pk'
 # and path find pk argument in ftn
 urlpatterns = [
-    path("<int:pk>", views.room_detail, name="detail"),
+    path("<int:pk>", views.RoomDetail.as_view(), name="detail"),
 ]
