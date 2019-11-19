@@ -23,5 +23,5 @@ class RoomDetail(DetailView):
 
 
 def search(request):
-    print(request)
-    return render(request, "rooms/search.html")
+    city = str.capitalize(request.GET.get("city"))  # Start with a capital letter in DB
+    return render(request, "rooms/search.html", {"city": city})
