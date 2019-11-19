@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView
+from django.shortcuts import render
 from . import models
 
 
@@ -20,3 +21,7 @@ class RoomDetail(DetailView):
 
     model = models.Room
 
+
+def search(request):
+    print(request)
+    return render(request, "rooms/search.html")
