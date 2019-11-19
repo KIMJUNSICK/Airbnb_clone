@@ -16,5 +16,4 @@ class HomeView(ListView):
 
 
 def room_detail(request, pk):
-    print(pk)
     return render(request, "rooms/detail.html")
