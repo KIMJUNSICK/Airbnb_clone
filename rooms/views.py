@@ -27,4 +27,9 @@ def search(request):
     city = str.capitalize(
         request.GET.get("city", "Anywhere")  # default
     )  # Start with a capital letter in DB
-    return render(request, "rooms/search.html", {"city": city, "countries": countries})
+    room_types = models.RoomType.objects.all()
+    return render(
+        request,
+        "rooms/search.html",
+        {"city": city, "countries": countries, "room_types": room_types},
+    )
