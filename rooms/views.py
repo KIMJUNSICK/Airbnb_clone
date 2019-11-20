@@ -38,6 +38,7 @@ def search(request):
     superhost = request.GET.get("superhost")
     selected_amenities = request.GET.getlist("amenities")
     selected_facilities = request.GET.getlist("facilities")
+    selected_house_rules = request.GET.getlist("house_rules")
 
     form = {
         "city": city,
@@ -52,16 +53,19 @@ def search(request):
         "selected_room_type": room_type,
         "selected_amenities": selected_amenities,
         "selected_facilities": selected_facilities,
+        "selected_house_rules": selected_house_rules,
     }
 
     room_types = models.RoomType.objects.all()
     amenities = models.Amenity.objects.all()
     facilities = models.Facility.objects.all()
+    house_rules = models.HouseRule.objects.all()
     choices = {
         "room_types": room_types,
         "countries": countries,
         "amenities": amenities,
         "facilities": facilities,
+        "house_rules": house_rules,
     }
 
     return render(request, "rooms/search.html", {**form, **choices})

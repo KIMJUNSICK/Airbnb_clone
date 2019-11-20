@@ -120,6 +120,26 @@
             </ul>
         </div>
 
+        <div>
+            <h3>House Rule</h3>
+            <ul>
+                {% for rule in house_rules %}
+                    <li>
+                        <label for="r_{{rule.pk}}">{{rule.name}}</label>
+                        <input 
+                        id="r_{{rules.pk}}" 
+                        name="house_rules" 
+                        type="checkbox" 
+                        value={{rule.pk}}
+                        {% if  rule.pk|slugify in selected_house_rules %}
+                            checked
+                        {% endif %}
+                        />
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
         <button>Submit</button>
         {% comment %} if one button in form tag, the button event is sumbit {% endcomment %}
     </form>
