@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render
+from django_countries import countries
 from . import models
 
 
@@ -23,5 +24,7 @@ class RoomDetail(DetailView):
 
 
 def search(request):
-    city = str.capitalize(request.GET.get("city"))  # Start with a capital letter in DB
-    return render(request, "rooms/search.html", {"city": city})
+    city = str.capitalize(
+        request.GET.get("city", "Anywhere")  # default
+    )  # Start with a capital letter in DB
+    return render(request, "rooms/search.html", {"city": city, "countries": countries})
