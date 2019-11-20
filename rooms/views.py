@@ -27,9 +27,15 @@ def search(request):
     city = str.capitalize(
         request.GET.get("city", "Anywhere")  # default
     )  # Start with a capital letter in DB
+    country = request.GET.get("country", "KR")
+    room_type = int(request.GET.get("room_type", 0))
+    form = {
+        "city": city,
+        "selected_country": country,
+        "selected_room_type": room_type,
+    }
+
     room_types = models.RoomType.objects.all()
-    return render(
-        request,
-        "rooms/search.html",
-        {"city": city, "countries": countries, "room_types": room_types},
-    )
+    choices = {"room_types": room_types, "countries": countries}
+
+    return render(request, "rooms/search.html", {**form, **choices})
