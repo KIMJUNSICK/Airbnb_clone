@@ -34,8 +34,8 @@ def search(request):
     bedrooms = int(request.GET.get("bedrooms", 0))
     beds = int(request.GET.get("beds", 0))
     baths = int(request.GET.get("baths", 0))
-    selected_amenities = request.GET.get("amenities")
-    selected_facilities = request.GET.get("facilities")
+    selected_amenities = request.GET.getlist("amenities")
+    selected_facilities = request.GET.getlist("facilities")
     print(selected_amenities, selected_facilities)
 
     form = {
