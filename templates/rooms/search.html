@@ -83,7 +83,7 @@
                 {% for facility in facilities %}
                     <li>
                         <label>{{facility.name}}</label>
-                        <input id="a_{{facility.pk}}" name="amenities" type="checkbox" value={{facility.pk}}/>
+                        <input id="a_{{facility.pk}}" name="facility" type="checkbox" value={{facility.pk}}/>
                     </li>
                 {% endfor %}
             </ul>
