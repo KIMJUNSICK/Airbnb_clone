@@ -34,6 +34,8 @@ def search(request):
     bedrooms = int(request.GET.get("bedrooms", 0))
     beds = int(request.GET.get("beds", 0))
     baths = int(request.GET.get("baths", 0))
+    instant = request.GET.get("instant")
+    superhost = request.GET.get("superhost")
     selected_amenities = request.GET.getlist("amenities")
     selected_facilities = request.GET.getlist("facilities")
 
@@ -44,6 +46,8 @@ def search(request):
         "bedrooms": bedrooms,
         "beds": beds,
         "baths": baths,
+        "instant": instant,
+        "superhost": superhost,
         "selected_country": country,
         "selected_room_type": room_type,
         "selected_amenities": selected_amenities,
