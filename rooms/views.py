@@ -29,8 +29,18 @@ def search(request):
     )  # Start with a capital letter in DB
     country = request.GET.get("country", "KR")
     room_type = int(request.GET.get("room_type", 0))
+    price = int(request.GET.get("price", 0))
+    guests = int(request.GET.get("guests", 0))
+    bedrooms = int(request.GET.get("bedrooms", 0))
+    beds = int(request.GET.get("beds", 0))
+    baths = int(request.GET.get("baths", 0))
     form = {
         "city": city,
+        "price": price,
+        "guests": guests,
+        "bedrooms": bedrooms,
+        "beds": beds,
+        "baths": baths,
         "selected_country": country,
         "selected_room_type": room_type,
     }
