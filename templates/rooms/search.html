@@ -70,20 +70,20 @@
             <ul>
                 {% for amenity in amenities %}
                     <li>
-                        <label>{{amenity.name}}</label>
-                        <input id="a_{{amenity.pk}}" name="amenities" type="checkbox" value={{amenity.pk}}/>
+                        <label for="a_{{amenity.pk}}">{{amenity.name}}</label>
+                        <input id="a_{{amenity.pk}}" name="amenities" type="checkbox" value={{amenity.pk}} />
                     </li>
                 {% endfor %}
             </ul>
         </div>
 
-         <div>
+        <div>
             <h3>Facilities</h3>
             <ul>
                 {% for facility in facilities %}
                     <li>
-                        <label>{{facility.name}}</label>
-                        <input id="a_{{facility.pk}}" name="facility" type="checkbox" value={{facility.pk}}/>
+                        <label for="f_{{facility.pk}}">{{facility.name}}</label>
+                        <input id="f_{{facility.pk}}" name="facilities" type="checkbox" value={{facility.pk}} />
                     </li>
                 {% endfor %}
             </ul>
