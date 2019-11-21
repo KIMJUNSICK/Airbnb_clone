@@ -24,9 +24,8 @@ class RoomDetail(DetailView):
 
 
 def search(request):
-    city = str.capitalize(
-        request.GET.get("city", "Anywhere")  # default
-    )  # Start with a capital letter in DB
+    city = request.GET.get("city", "Anywhere")
+    city = str.capitalize(city)
     country = request.GET.get("country", "KR")
     room_type = int(request.GET.get("room_type", 0))
     price = int(request.GET.get("price", 0))
@@ -70,13 +69,16 @@ def search(request):
 
     filter_args = {}
 
+    # filtering
     if city != "Anywhere":
         filter_args["city__startswith"] = city
-
-    print(filter_args)
+    if room_type != 0:
+        filter_args["room_type__pk"] = room_type
+    filter_args["country"] = country
 
     rooms = models.Room.objects.filter(**filter_args)
 
+    print(filter_args)
     print(rooms)
 
     # filter rooms in db by data that get in url

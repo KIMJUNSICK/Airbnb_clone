@@ -12,7 +12,7 @@
 
         <div>
             <label for="city">City</label>
-            <input value={{city}} id="city" name="city" placeholder="Search by City!" />
+            <input value="{{city}}" id="city" name="city" placeholder="Search By City" />
         </div>
 
         <div>
@@ -146,6 +146,6 @@
 
     <h3>Result</h3>
     {% for room in rooms %}
-        {{room.name}}
+        <h4>{{room.name}}</h4>
     {% endfor %}
 {% endblock content %}
