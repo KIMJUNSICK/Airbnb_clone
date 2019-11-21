@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import render
+from django.core.paginator import Paginator
 from . import models, forms
 
 
@@ -78,11 +79,18 @@ class SearchView(View):
                 for house_rule in house_rules:
                     filter_args["house_rules"] = house_rule
 
-                rooms = models.Room.objects.filter(**filter_args)
-                print(filter_args)
-                print(rooms)
+                qs = models.Room.objects.filter(**filter_args)
+
+                paginator = Paginator(qs, 10, orphans=5)
+                page = request.GET.get("page", 1)
+
+                rooms = paginator.get_page(page)
+
+                return render(
+                    request, "rooms/search.html", {"form": form, "rooms": rooms}
+                )
         else:
             form = forms.SearchForm()  # undounded form # set default value
 
-        return render(request, "rooms/search.html", {"form": form, "rooms": rooms})
+        return render(request, "rooms/search.html", {"form": form})
 
