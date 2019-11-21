@@ -10,7 +10,7 @@
 {% block content %}
     <h2>Search</h2>
     <form method="get" action="{% url 'rooms:search' %}">
-        {{form}}
+        {{form.as_p}}
         <button>Submit</button>
     </form>
 
