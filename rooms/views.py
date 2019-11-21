@@ -88,11 +88,27 @@ def search(request):
         filter_args["instant_book"] = True
     if superhost is True:
         filter_args["host__superhost"] = True
-
     filter_args["country"] = country
 
     rooms = models.Room.objects.filter(**filter_args)
 
+    if len(selected_amenities) > 0:
+        for selected_amenity in selected_amenities:
+            rooms = rooms & models.Room.objects.filter(
+                amenities__pk=int(selected_amenity)
+            )
+    if len(selected_facilities) > 0:
+        for selected_facility in selected_facilities:
+            rooms = rooms & models.Room.objects.filter(
+                amenities__pk=int(selected_facility)
+            )
+    if len(selected_house_rules) > 0:
+        for selected_house_rule in selected_house_rules:
+            rooms = rooms & models.Room.objects.filter(
+                amenities__pk=int(selected_house_rule)
+            )
+
+    print(selected_amenities)
     print(filter_args)
     print(rooms)
 
