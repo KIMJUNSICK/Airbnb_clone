@@ -79,7 +79,7 @@ class SearchView(View):
                 for house_rule in house_rules:
                     filter_args["house_rules"] = house_rule
 
-                qs = models.Room.objects.filter(**filter_args)
+                qs = models.Room.objects.filter(**filter_args).order_by("-created")
 
                 paginator = Paginator(qs, 10, orphans=5)
                 page = request.GET.get("page", 1)
