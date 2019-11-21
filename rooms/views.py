@@ -1,6 +1,5 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render
-from django_countries import countries
 from . import models, forms
 
 
