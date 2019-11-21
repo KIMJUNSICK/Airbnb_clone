@@ -24,7 +24,7 @@ class RoomDetail(DetailView):
 
 def search(request):
 
-    form = forms.SearchForm()
+    form = forms.SearchForm(request.GET)
 
     return render(request, "rooms/search.html", {"form": form})
 
