@@ -68,4 +68,21 @@ def search(request):
         "house_rules": house_rules,
     }
 
-    return render(request, "rooms/search.html", {**form, **choices})
+    filter_args = {}
+
+    if city != "Anywhere":
+        filter_args["city__startswith"] = city
+
+    print(filter_args)
+
+    rooms = models.Room.objects.filter(**filter_args)
+
+    print(rooms)
+
+    # filter rooms in db by data that get in url
+    # get data of rooms that were filtered
+    # send the data to templates
+    # view + css
+
+    return render(request, "rooms/search.html", {**form, **choices, "rooms": rooms})
+

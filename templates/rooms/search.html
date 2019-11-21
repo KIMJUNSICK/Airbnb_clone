@@ -144,4 +144,8 @@
         {% comment %} if one button in form tag, the button event is sumbit {% endcomment %}
     </form>
 
+    <h3>Result</h3>
+    {% for room in rooms %}
+        {{room.name}}
+    {% endfor %}
 {% endblock content %}
