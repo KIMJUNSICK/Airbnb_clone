@@ -23,8 +23,18 @@ class RoomDetail(DetailView):
 
 
 def search(request):
+    country = request.GET.get("country")
 
-    form = forms.SearchForm(request.GET)
+    if country:
+        form = forms.SearchForm(
+            request.GET
+        )  # bounded form # connected to data, automatically check data
+
+        if form.is_valid():
+            print(form.cleaned_data)  # get cleaned data in request of ours
+
+    else:
+        form = forms.SearchForm()  # undounded form # set default value
 
     return render(request, "rooms/search.html", {"form": form})
 
