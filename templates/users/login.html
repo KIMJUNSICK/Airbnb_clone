@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-
-
 {% block page_title %}
 
     Login
@@ -14,8 +12,9 @@
 {% block content %}
     
     <form method="POST" action="{% url 'users:login' %}">
+        {% csrf_token %}
         {{form.as_p}}
         <button>Login</button>
     </form>
 {% endblock content %}
-    
+
