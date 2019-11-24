@@ -10,7 +10,10 @@ class LoginView(View):
 
     def post(self, request):
         form = forms.LoginForm(request.POST)
-        print(form.is_valid())  # if form is valid, return True
+        if form.is_valid():
+            print(
+                form.cleaned_data
+            )  # if clean_Ftn would not return anything, change data that post in templates to None.
         return render(request, "users/login.html", {"form": form})
 
 
