@@ -12,7 +12,7 @@ class LoginView(FormView):
     # _lazy is meant that execute when this is needed
     success_url = reverse_lazy("core:home")
 
-    # thanks to FormView, you are able to reduce procedure that validate form data
+    # thanks to FormView, you are able to reduce procedure that write code for validating form data
     def form_valid(self, form):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")

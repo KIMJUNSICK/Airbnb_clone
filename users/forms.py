@@ -16,6 +16,6 @@ class LoginForm(forms.Form):
                 return self.cleaned_data
             else:
                 # self.add_error express error on the field
-                self.add_error(forms.ValidationError("Password is wrong"))
+                self.add_error("password", forms.ValidationError("Password is wrong"))
         except models.User.DoesNotExist:
-            self.add_error(forms.ValidationError("User does not exist"))
+            self.add_error("email", forms.ValidationError("User does not exist"))
