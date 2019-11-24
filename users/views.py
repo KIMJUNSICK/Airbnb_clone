@@ -9,5 +9,12 @@ class LoginView(View):
         return render(request, "users/login.html", {"form": form})
 
     def post(self, request):
-        pass
+        form = forms.LoginForm(request.POST)
+        print(form)
+
+
+# CSRF
+# not our website, another site access to our wevsite login with marvelous button
+# because we have cookie
+# so this problem is solved by django csrf token.
 
