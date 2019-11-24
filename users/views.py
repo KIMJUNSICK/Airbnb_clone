@@ -1,24 +1,25 @@
-from django.views import View
-from django.shortcuts import render, redirect, reverse
+from django.views.generic import FormView
+from django.urls import reverse_lazy
+from django.shortcuts import redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from . import forms
 
 
-class LoginView(View):
-    def get(self, request):
-        form = forms.LoginForm(initial={"email": "jinaganda5@gmail.com"})
-        return render(request, "users/login.html", {"form": form})
+class LoginView(FormView):
 
-    def post(self, request):
-        form = forms.LoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get("email")
-            password = form.cleaned_data.get("password")
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect(reverse("core:home"))
-        return render(request, "users/login.html", {"form": form})
+    template_name = "users/login.html"
+    form_class = forms.LoginForm
+    # _lazy is meant that execute when this is needed
+    success_url = reverse_lazy("core:home")
+
+    # thanks to FormView, you are able to reduce procedure that validate form data
+    def form_valid(self, form):
+        email = form.cleaned_data.get("email")
+        password = form.cleaned_data.get("password")
+        user = authenticate(self.request, username=email, password=password)
+        if user is not None:
+            login(self.request, user)
+        return super().form_valid(form)
 
 
 def log_out(request):
