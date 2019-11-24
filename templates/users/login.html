@@ -12,6 +12,10 @@
 {% endblock search-bar %}
 
 {% block content %}
-    <h2>Login!</h2>
+    
+    <form method="POST" action="{% url 'users:login' %}">
+        {{form.as_p}}
+        <button>Login</button>
+    </form>
 {% endblock content %}
     
