@@ -1,4 +1,5 @@
 from django import forms
+from . import models
 
 
 class LoginForm(forms.Form):
@@ -9,7 +10,12 @@ class LoginForm(forms.Form):
     # This name is not freely named.
     # name have to start with letter called clean_'
     def clean_email(self):
-        print("clean email")
+        email = self.cleaned_data.get("email")
+        try:
+            models.User.objects.get(username=email)
+            return email
+        except models.User.DoesNotExist:
+            raise forms.ValidationError("User does not exist")
 
     def clean_password(self):
-        print("clean password")
+        return "alalalal"
