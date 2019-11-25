@@ -39,3 +39,12 @@ class SignUpForm(forms.ModelForm):
         else:
             return password
 
+    # override save method of ModelForm
+    def save(self, *args, **kwargs):
+        # this is meant thath not save data to DB right now & here
+        user = super().save(commit=False)
+        email = self.cleaned_data.get("email")
+        password = self.cleaned_data.get("password")
+        user.username = email
+        user.set_password(password)  # set_password hash password
+        user.save()
