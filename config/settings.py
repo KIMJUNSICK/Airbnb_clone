@@ -134,3 +134,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 # meaning of starting path with "/" is absolute path
 # only develope mode
 MEDIA_URL = "/media/"
+
+# Email Configuration
+
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = os.environ.get("MAILGUN_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_HOST_PASSWORD")
