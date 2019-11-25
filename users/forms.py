@@ -19,3 +19,11 @@ class LoginForm(forms.Form):
                 self.add_error("password", forms.ValidationError("Password is wrong"))
         except models.User.DoesNotExist:
             self.add_error("email", forms.ValidationError("User does not exist"))
+
+
+class SignUpForm(forms.Form):
+    first_name = forms.CharField(max_length=80)
+    last_name = forms.CharField(max_length=80)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
