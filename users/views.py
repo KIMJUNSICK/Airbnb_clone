@@ -1,3 +1,4 @@
+import os
 from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, reverse
@@ -58,7 +59,11 @@ def complete_verification(request, key):
 
 
 def github_login(request):
-    pass
+    client_id = os.environ.get("GITHUB_ID")
+    redirect_uri = "http://localhost:8000/users/login/github/callback"
+    return redirect(
+        f"https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&scope=read:user"
+    )
 
 
 def github_callback(request):
