@@ -55,3 +55,11 @@ def complete_verification(request, key):
         # to do: add error message
         pass
     return redirect(reverse("core:home"))
+
+
+def github_login(request):
+    pass
+
+
+def github_callback(request):
+    pass
