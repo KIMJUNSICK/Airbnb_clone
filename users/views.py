@@ -72,10 +72,24 @@ def github_callback(request):
     client_secret = os.environ.get("GITHUB_SECRET")
     code = request.GET.get("code", None)
     if code is not None:
-        request = requests.post(
+        result = requests.post(
             f"https://github.com/login/oauth/access_token?client_id={client_id}&client_secret={client_secret}&code={code}",
             headers={"Accept": "application/json"},
         )
-        print(request.json())
+        result_json = result.json()
+        error = result_json.get("error", None)
+        if error is not None:
+            return redirect(reverse("core:login"))
+        else:
+            access_token = result_json.get("access_token")
+            profile_request = requests.get(
+                "https://api.github.com/user",
+                headers={
+                    "Authorization": f"token {access_token}",
+                    "Accept": "application/json",
+                },
+            )
+            profile_json = profile_request.json()
+            print(profile_json)
     else:
         return redirect(reverse("core:home"))
