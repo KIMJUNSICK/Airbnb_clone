@@ -102,6 +102,7 @@ def github_callback(request):
                     name = profile_json.get("name")
                     email = profile_json.get("email")
                     bio = profile_json.get("bio")
+                    profile_image_url = profile_json.get("avatar_url")
                     try:
                         user = models.User.objects.get(email=email)
                         if user.login_method != models.User.LOGIN_GITHUB:
@@ -117,6 +118,12 @@ def github_callback(request):
                         )
                         user.set_unusable_password()
                         user.save()
+                        if profile_image_url is not None:
+                            image_request = requests.get(profile_image_url)
+                            user.avatar.save(
+                                f"{name}-avatar.webp",
+                                ContentFile(image_request.content),
+                            )
                     login(request, user)
                     return redirect(reverse("core:home"))
                 else:
