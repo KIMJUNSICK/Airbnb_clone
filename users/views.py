@@ -126,6 +126,10 @@ def github_callback(request):
         return redirect(reverse("users:login"))
 
 
+class KakaoException(Exception):
+    pass
+
+
 def kakao_login(request):
     client_id = os.environ.get("KAKAO_ID")
     redirect_uri = "http://localhost:8000/users/login/kakao/callback"
@@ -135,4 +139,18 @@ def kakao_login(request):
 
 
 def kakao_callback(request):
-    print(request.GET)
+    try:
+        client_id = os.environ.get("KAKAO_ID")
+        redirect_uri = "http://localhost:8000/users/login/kakao/callback"
+        authorize_code = request.GET.get("code")
+        if authorize_code is not None:
+            token_request = requests.post(
+                f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={authorize_code}"
+            )
+            token_json = token_request.json()
+            print(token_json)
+
+    except KakaoException:
+        # send error message
+        return redirect(reverse("core:home"))
+
