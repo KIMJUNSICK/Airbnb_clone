@@ -127,8 +127,12 @@ def github_callback(request):
 
 
 def kakao_login(request):
-    pass
+    client_id = os.environ.get("KAKAO_ID")
+    redirect_uri = "http://localhost:8000/users/login/kakao/callback"
+    return redirect(
+        f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
+    )
 
 
 def kakao_callback(request):
-    pass
+    print(request.GET)
