@@ -4,6 +4,7 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.core.files.base import ContentFile
 from . import forms, models
 
 
@@ -112,6 +113,7 @@ def github_callback(request):
                             first_name=name,
                             bio=bio,
                             login_method=models.User.LOGIN_GITHUB,
+                            email_verified=True,
                         )
                         user.set_unusable_password()
                         user.save()
@@ -164,6 +166,7 @@ def kakao_callback(request):
                     raise KakaoException()
                 profile = kakao_account.get("profile")
                 nickname = profile.get("nickname")
+                profile_image = profile.get("profile_image_url")
                 try:
                     user = models.User.objects.get(email=email)
                     if user.login_method != models.User.LOGIN_KAKAO:
@@ -178,6 +181,15 @@ def kakao_callback(request):
                     )
                     user.set_unusable_password()
                     user.save()
+                    if profile_image is not None:
+                        image_request = requests.get(profile_image)
+                        # user model's avatar field don't process url.
+                        # That's why we're doing this.
+                        # image_request.content is byte-code (0&1)
+                        user.avatar.save(
+                            f"{nickname}-avatar.webp",
+                            ContentFile(image_request.content),
+                        )
                 login(request, user)
                 return redirect(reverse("core:home"))
     except KakaoException:
