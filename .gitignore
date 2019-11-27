@@ -128,3 +128,5 @@ dmypy.json
 .DS_Store 
 
 uploads/
+node_modules/ 
+static
