@@ -158,7 +158,28 @@ def kakao_callback(request):
                     headers={"Authorization": f"Bearer {access_token}"},
                 )
                 profile_json = profile_request.json()
-                print(profile_json)
+                kakao_account = profile_json.get("kakao_account")
+                email = kakao_account.get("email")
+                if email is None:
+                    raise KakaoException()
+                profile = kakao_account.get("profile")
+                nickname = profile.get("nickname")
+                try:
+                    user = models.User.objects.get(email=email)
+                    if user.login_method != models.User.LOGIN_KAKAO:
+                        raise KakaoException()
+                except models.User.DoesNotExist:
+                    user = models.User.objects.create(
+                        email=email,
+                        username=email,
+                        first_name=nickname,
+                        email_verified=True,
+                        login_method=models.User.LOGIN_KAKAO,
+                    )
+                    user.set_unusable_password()
+                    user.save()
+                login(request, user)
+                return redirect(reverse("core:home"))
     except KakaoException:
         # send error message
         return redirect(reverse("core:home"))
