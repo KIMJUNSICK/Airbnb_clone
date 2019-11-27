@@ -102,7 +102,7 @@ def github_callback(request):
                     email = profile_json.get("email")
                     bio = profile_json.get("bio")
                     try:
-                        user = models.User.objects.get(email="email")
+                        user = models.User.objects.get(email=email)
                         if user.login_method != models.User.LOGIN_GITHUB:
                             raise GithubException()
                     except models.User.DoesNotExist:
