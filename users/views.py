@@ -148,8 +148,17 @@ def kakao_callback(request):
                 f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={authorize_code}"
             )
             token_json = token_request.json()
-            print(token_json)
-
+            token_error = token_json.get("error", None)
+            if token_error is not None:
+                raise KakaoException()
+            else:
+                access_token = token_json.get("access_token")
+                profile_request = requests.get(
+                    "https://kapi.kakao.com/v2/user/me",
+                    headers={"Authorization": f"Bearer {access_token}"},
+                )
+                profile_json = profile_request.json()
+                print(profile_json)
     except KakaoException:
         # send error message
         return redirect(reverse("core:home"))
