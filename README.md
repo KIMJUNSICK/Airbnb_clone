@@ -5,4 +5,4 @@
 - WSL(windows subsystem for Linux)
 - vscode
 - pipenv
-- Django
+- Django 2.2.5
