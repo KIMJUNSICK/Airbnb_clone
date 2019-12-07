@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block page_title %}
+{{user_obj.first_name}}'s Profile
+{% endblock page_title %}
+
+
+{% block content %}
+
+<div>
+    {% include 'mixins/user_avatar.html' with user=user_obj %}
+    <span>{{user_obj.first_name}}</span>
+    {% if user_obj.superhost %}
+    <i class="fas fa-check-circle text-teal-400 ml-1"></i>
+    {% endif %}
+</div>
+
+{% endblock content %}
