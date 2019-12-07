@@ -1,39 +1,42 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-    <title>{% block page_title %}{% endblock page_title %} | Nbnb</title>
-  </head>
-  <body class="text-gray-800 mt-24 font-light">
-    <header class="container max-w-full inset-0 flex items-center 
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <title>{% block page_title %}{% endblock page_title %} | Nbnb</title>
+</head>
+
+<body class="text-gray-800 mt-24 font-light">
+  {% include "partials/messages.html" %}
+  <header class="container max-w-full inset-0 flex items-center 
     justify-between px-6 h-20 border-b border-gray-400
     fixed bg-white">
-      <div class="flex items-center w-1/3">
-        <a href="{% url 'core:home' %}" class="mr-6">
-          <img class="w-8" src="{% static 'img/logo.png' %}">
-        </a>
-        {% block search-bar %}
-        <form method="get" action="{% url 'rooms:search' %}" class="w-3/4">
-          <input class="search-box border px-5 py-3 
+    <div class="flex items-center w-1/3">
+      <a href="{% url 'core:home' %}" class="mr-6">
+        <img class="w-8" src="{% static 'img/logo.png' %}">
+      </a>
+      {% block search-bar %}
+      <form method="get" action="{% url 'rooms:search' %}" class="w-3/4">
+        <input class="search-box border px-5 py-3 
           rounded w-full w-64 
           focus:outline-none font-medium
           shadow-md hover:shadow-lg 
           text-gray-900 placeholder-gray-600" name="city" placeholder="Search by City!" />
-        </form>
-        {% endblock search-bar %}
-      </div>
-      {% include "partials/navigation.html" %}
-    </header>
-    
-    {% block  content %}
-    {% endblock  %}
+      </form>
+      {% endblock search-bar %}
+    </div>
+    {% include "partials/navigation.html" %}
+  </header>
 
-    {% include "partials/messages.html" %}
-    {% include "partials/footer.html" %}
-  </body>
+  {% block  content %}
+  {% endblock  %}
+
+  {% include "partials/footer.html" %}
+</body>
+
 </html>

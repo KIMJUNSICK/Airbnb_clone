@@ -86,7 +86,7 @@ def github_callback(request):
             token_json = token_request.json()
             error = token_json.get("error", None)
             if error is not None:
-                raise GithubException()
+                raise GithubException("Can't get access token")
             else:
                 access_token = token_json.get("access_token")
                 # get profile data with github API
@@ -107,7 +107,9 @@ def github_callback(request):
                     try:
                         user = models.User.objects.get(email=email)
                         if user.login_method != models.User.LOGIN_GITHUB:
-                            raise GithubException()
+                            raise GithubException(
+                                f"Please log in with: {user.login_method}"
+                            )
                     except models.User.DoesNotExist:
                         user = models.User.objects.create(
                             username=email,
@@ -126,13 +128,16 @@ def github_callback(request):
                                 ContentFile(image_request.content),
                             )
                     login(request, user)
+                    messages.success(
+                        request, f"Welcome back {user.first_name}"
+                    )
                     return redirect(reverse("core:home"))
                 else:
-                    raise GithubException()
+                    GithubException("Can't get your profile")
         else:
-            raise GithubException()
-    except GithubException:
-        # send error message
+            raise GithubException("Can't get code")
+    except GithubException as e:
+        messages.error(request, e)
         return redirect(reverse("users:login"))
 
 
@@ -151,7 +156,6 @@ def kakao_login(request):
 def kakao_callback(request):
     try:
         client_id = os.environ.get("KAKAO_ID")
-        raise KakaoException()
         redirect_uri = "http://localhost:8000/users/login/kakao/callback"
         authorize_code = request.GET.get("code")
         if authorize_code is not None:
@@ -161,7 +165,7 @@ def kakao_callback(request):
             token_json = token_request.json()
             token_error = token_json.get("error", None)
             if token_error is not None:
-                raise KakaoException()
+                raise KakaoException("Can't get authorization code.")
             else:
                 access_token = token_json.get("access_token")
                 profile_request = requests.get(
@@ -172,14 +176,16 @@ def kakao_callback(request):
                 kakao_account = profile_json.get("kakao_account")
                 email = kakao_account.get("email")
                 if email is None:
-                    raise KakaoException()
+                    raise KakaoException("Please also give me your email")
                 profile = kakao_account.get("profile")
                 nickname = profile.get("nickname")
                 profile_image = profile.get("profile_image_url")
                 try:
                     user = models.User.objects.get(email=email)
                     if user.login_method != models.User.LOGIN_KAKAO:
-                        raise KakaoException()
+                        raise KakaoException(
+                            f"Please log in with: {user.login_method}"
+                        )
                 except models.User.DoesNotExist:
                     user = models.User.objects.create(
                         email=email,
@@ -199,10 +205,11 @@ def kakao_callback(request):
                             f"{nickname}-avatar.webp",
                             ContentFile(image_request.content),
                         )
+                messages.success(request, f"Welcome back {user.first_name}")
                 login(request, user)
                 return redirect(reverse("core:home"))
-    except KakaoException:
+    except KakaoException as e:
         # the django system send message only once
-        messages.error(request, "Something went wrong")
+        messages.error(request, e)
         return redirect(reverse("users:login"))
 
