@@ -4,6 +4,7 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.core.files.base import ContentFile
 from . import forms, models
 
@@ -150,6 +151,7 @@ def kakao_login(request):
 def kakao_callback(request):
     try:
         client_id = os.environ.get("KAKAO_ID")
+        raise KakaoException()
         redirect_uri = "http://localhost:8000/users/login/kakao/callback"
         authorize_code = request.GET.get("code")
         if authorize_code is not None:
@@ -200,6 +202,7 @@ def kakao_callback(request):
                 login(request, user)
                 return redirect(reverse("core:home"))
     except KakaoException:
-        # send error message
-        return redirect(reverse("core:home"))
+        # the django system send message only once
+        messages.error(request, "Something went wrong")
+        return redirect(reverse("users:login"))
 
