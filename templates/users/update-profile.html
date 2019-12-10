@@ -16,9 +16,12 @@ items-center border p-6 border-gray-400">
 
     {% include 'mixins/auth/auth_form.html' with form=form cta="Update profile" %}
 
+    {% if object.login_method == "email" %}
     <div class="mt-5">
-        <a href="#" class="text-teal-500 font-medium">Change Password</a>
+        <a href="{% url 'users:password' %}" class="text-teal-500 font-medium">Change Password</a>
     </div>
+    {% endif %}
+
 </div>
 
 {% endblock content %}
